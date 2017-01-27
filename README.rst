@@ -50,7 +50,7 @@ Upcoming Features
 Version History
 ---------------
 
-Version 1.0.0 (2016-08-01)
+Version 0.99.0 (2017-01-27)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  Initial release

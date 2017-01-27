@@ -1,3 +1,7 @@
+"""HTTP Services
+
+This module implements services using HTTP(s) for communication
+"""
 # import datetime
 import gzip
 import io
@@ -21,11 +25,13 @@ from . import __version__, WebService
 
 
 class HttpService(WebService):  # pylint: disable=abstract-method
+    """A simple service based on HTTP requests. This class should not be used directly"""
     _session = None
     user_agent = "python-libweb/{0}".format(__version__)
 
     @property
     def session(self):
+        """Return a requests Session object which sets a User-Agent header"""
         if self._session is None:
             self._session = requests.Session()
             self._session.headers.update({"User-Agent": self.user_agent})
@@ -34,6 +40,10 @@ class HttpService(WebService):  # pylint: disable=abstract-method
         return self._session
 
     def unzip_content(self, request, *args, **kwargs):  # pylint: disable=unused-argument
+        """Automatically detect and decompress zip or gzip content
+
+        Override this to provide support for additional compressed content types
+        """
         content = request.content
 
         with magic.Magic(flags=magic.MAGIC_MIME_TYPE) as magick:
@@ -57,6 +67,11 @@ class HttpService(WebService):  # pylint: disable=abstract-method
         return request
 
     def process_params(self, orig_params):  # pylint: disable=no-self-use
+        """Process parameters into usable pieces.
+
+        Override this if you provide any config parameters that may require
+        interpreation, such as the relatime parameter
+        """
         params = orig_params.copy()
         for (key, value) in params.items():
             if hasattr(value, "items"):
@@ -81,6 +96,10 @@ class HttpService(WebService):  # pylint: disable=abstract-method
         return params
 
     def get_auth(self, auth):
+        """Find and apply authentication
+
+        Override this if you need to support additional styles of authentication
+        """
         kwargs = dict()
         if auth and self.creds:
             if not hasattr(auth, "items"):
@@ -103,6 +122,10 @@ class HttpService(WebService):  # pylint: disable=abstract-method
         return kwargs
 
     def build_request(self, url, method="GET", **kwargs):  # pylint: disable=no-self-use
+        """Apply request hooks to automatically transform request content
+
+        Override this if you need to customze the Request object generated.
+        """
         hooks = kwargs.pop("hooks", [])
         request = requests.Request(method, url, **kwargs)
         for (event, hook) in hooks:
@@ -110,15 +133,18 @@ class HttpService(WebService):  # pylint: disable=abstract-method
         return request
 
     def prepare_request(self, request):
+        """Applies session state to the request"""
         return self.session.prepare_request(request)
 
     def send_request(self, request, verify_ssl=True):
+        """Suppress SSL if necessary and send the request"""
         with warnings.catch_warnings():
             if not verify_ssl:  # pragma nocover
                 warnings.simplefilter("ignore", exceptions.InsecureRequestWarning)
             return self.session.send(request, verify=verify_ssl)
 
     def _req(self, url, **conf):
+        """Helper function for assembling and submitting requests"""
         kwargs = {
             "headers": {},
             "data": {},
@@ -152,6 +178,7 @@ class HttpService(WebService):  # pylint: disable=abstract-method
         return self.send_request(request, verify_ssl=conf.get("verify_ssl", True))
 
     def make_requests(self):
+        """Iterate over configuration for multiple requests"""
         query = self.conf
 
         url_list = query.pop("url")

@@ -1,3 +1,7 @@
+"""JSON Services
+
+This module implements services using JSON over HTTP for communication
+"""
 from __future__ import absolute_import
 
 import json
@@ -9,7 +13,15 @@ from .http import HttpService
 
 
 class JsonService(HttpService):
+    """An HTTP-based service that speaks JSON. Uses jsonpath to parse the returned
+    document.
+
+    Keyword arguments:
+        jsonpath (dict or list of dicts): JSONpath configuration to extract/parse data
+    """
+
     def get_results(self):
+        """Make the HTTP requests, parse the JSON and yield a structured response"""
         ignored_status_codes = [int(sc) for sc in self.conf.get("ignored_status_codes", [])]
 
         for request in self.make_requests():

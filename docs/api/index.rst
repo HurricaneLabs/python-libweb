@@ -5,6 +5,7 @@ libweb Parsers
    :maxdepth: 2
 
    dns
+   http
    json
    regex
    xpath
