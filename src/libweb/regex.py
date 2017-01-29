@@ -4,6 +4,7 @@ This module implements services using HTTP for communication and regular express
 to parse the results
 """
 
+import itertools
 try:
     import html
 except ImportError:
@@ -36,6 +37,13 @@ class RegexService(HttpService):
     def get_results(self):
         """Apply the configured regular expressions to the service's response"""
         for body in self.get_html():
-            for regex in self.regexes:
-                for match in regex.finditer(body):
-                    yield match.groupdict()
+            iters = [regex.finditer(body) for regex in self.regexes]
+            try:
+                zip_longest = itertools.zip_longest
+            except AttributeError:
+                # Python 2.7
+                zip_longest = itertools.izip_longest
+            for matches in zip_longest(*iters):
+                yield dict(itertools.chain.from_iterable(
+                    [m.groupdict().items() for m in matches if m is not None]
+                ))

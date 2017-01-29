@@ -30,11 +30,11 @@ class JsonService(HttpService):
 
             if self.conf.get("multi_json", False):
                 data = [json.loads(line) for line in request.text.split("\n") if line]
-                for result in data:
-                    yield result
+                # for result in data:
+                #     yield result
             else:
                 data = request.json()
-                yield data
+                # yield data
 
             if "jsonpath" in self.conf:
                 jsonpaths = self.conf["jsonpath"]
@@ -45,6 +45,17 @@ class JsonService(HttpService):
                     for (key, jsonpath) in jsonpath_conf.items():
                         expr = jsonpath_rw.parse(jsonpath)
                         for match in expr.find(data):
-                            new_data.update({key: match.value})
+                            if key in new_data:
+                                if not isinstance(new_data[key], list):
+                                    new_data[key] = [new_data[key]]
+                                new_data[key].append(match.value)
+                            else:
+                                new_data.update({key: match.value})
                             # print(new_data)
                     yield new_data
+            else:
+                if self.conf.get("multi_json", False):
+                    for result in data:
+                        yield result
+                else:
+                    yield data

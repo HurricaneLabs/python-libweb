@@ -107,6 +107,8 @@ class HttpService(WebService):  # pylint: disable=abstract-method
                 kwargs["auth"] = tuple(creds)
             else:
                 creds = self.creds.get(auth.get("name"))
+                if not isinstance(creds, list):
+                    creds = [creds]
                 if "headers" in auth:
                     kwargs["headers"] = kwargs.get("headers", {})
                     for (key, value) in zip(auth.get("headers"), creds):

@@ -198,7 +198,7 @@ class TestHttp(TestCase):
         authname = fauxfactory.gen_alpha()
         apikey = fauxfactory.gen_alpha()
         self.service.creds = {
-            authname: (apikey,)
+            authname: apikey
         }
         auth = {
             "name": authname,

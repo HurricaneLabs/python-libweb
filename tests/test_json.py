@@ -36,7 +36,7 @@ class TestJson(TestCase):
         lines = fauxfactory.gen_integer(min_value=1, max_value=10)
         self.service.conf = {
             "url": "http://httpbin.org/stream/{0}".format(lines),
-            "multi_json": True
+            "multi_json": True,
         }
 
         results = list()
@@ -63,6 +63,18 @@ class TestJson(TestCase):
         for _ in self.service:
             data.update(_)
         self.assertEqual(data.get(result_key, None), "httpbin.org")
+
+    def test_jsonpath_multiple_matches(self):
+        result_key = fauxfactory.gen_alpha().lower()
+        self.service.conf = {
+            "url": "http://httpbin.org/get",
+            "jsonpath": {result_key: "$.headers.*"}
+        }
+
+        data = dict()
+        for _ in self.service:
+            data.update(_)
+        self.assertEqual(len(data.get(result_key, None)), 5)
 
     def test_multiple_jsonpath(self):
         result_key_1 = fauxfactory.gen_alpha().lower()
