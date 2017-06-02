@@ -31,7 +31,7 @@ setup(
         "defusedxml",
         "lxml",
         "html5lib",
-        "jsonpath_rw",
+        "jsonpath-rw-ext",
         "relatime",
         "tzlocal",
         "filemagic",

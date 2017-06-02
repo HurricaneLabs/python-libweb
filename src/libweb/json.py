@@ -7,7 +7,7 @@ from __future__ import absolute_import
 import json
 from collections import OrderedDict
 
-import jsonpath_rw
+import jsonpath_rw_ext
 
 from .http import HttpService
 
@@ -43,7 +43,7 @@ class JsonService(HttpService):
                 for jsonpath_conf in jsonpaths:
                     new_data = OrderedDict()
                     for (key, jsonpath) in jsonpath_conf.items():
-                        expr = jsonpath_rw.parse(jsonpath)
+                        expr = jsonpath_rw_ext.parse(jsonpath)
                         for match in expr.find(data):
                             if key in new_data:
                                 if not isinstance(new_data[key], list):
