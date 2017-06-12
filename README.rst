@@ -1,4 +1,4 @@
-libweb - A library for parsing the web
+ffglibweb - A library for parsing the web
 ======================================
 
 libweb is, simply, a parsing engine for the web. The goal of the libweb project
@@ -50,7 +50,14 @@ Upcoming Features
 Version History
 ---------------
 
-Version 0.99.0 (2017-01-27)
+Version 1.0.0 (2017-06-12)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  Switch to jsonpath_rw_ext
+-  Minor restructuring in JsonService to allow better subclassing
+-  Official first release to PyPI
+
+Version 0.99.0 (2017-01-27)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  Initial release
