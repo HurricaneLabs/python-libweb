@@ -10,7 +10,7 @@ python-libweb can be installed using pip3:
 
 ::
 
-    pip3 install python-libweb
+    pip3 install libweb
 
 Or, if you're feeling adventurous, can be installed directly from
 github:
