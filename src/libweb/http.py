@@ -159,7 +159,7 @@ class HttpService(WebService):  # pylint: disable=abstract-method
             func = getattr(self, "process_{}".format(key), None)
             kwargs[key] = conf.get(key, {})
             if callable(func):
-                kwargs[key] = func(kwargs[key])
+                kwargs[key] = func(kwargs[key])  # pylint: disable=not-callable
 
         for (key, value) in self.get_auth(conf.get("auth", {})).items():
             if hasattr(value, "items"):

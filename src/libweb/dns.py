@@ -42,7 +42,7 @@ class DnsService(WebService):
         """Iterate over the requests for this service and yield the rrsets"""
         query_list = self.conf
         if not isinstance(query_list, list):
-            query_list = [query_list]  # pylint: disable=redefined-variable-type
+            query_list = [query_list]
 
         for query in query_list:
             rrname = self.get_rrname(query["rrname"])

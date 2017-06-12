@@ -20,8 +20,8 @@ class JsonService(HttpService):
         jsonpath (dict or list of dicts): JSONpath configuration to extract/parse data
     """
 
-    def get_results(self):
-        """Make the HTTP requests, parse the JSON and yield a structured response"""
+    def get_data(self):
+        """Make the HTTP requests and yield the data returned"""
         ignored_status_codes = [int(sc) for sc in self.conf.get("ignored_status_codes", [])]
 
         for request in self.make_requests():
@@ -29,13 +29,14 @@ class JsonService(HttpService):
                 raise StopIteration
 
             if self.conf.get("multi_json", False):
-                data = [json.loads(line) for line in request.text.split("\n") if line]
-                # for result in data:
-                #     yield result
+                yield [json.loads(line) for line in request.text.split("\n") if line]
             else:
-                data = request.json()
-                # yield data
+                yield request.json()
 
+    def get_results(self):
+        """Parse the JSON and yield a structured response"""
+        # pylint: disable=too-many-nested-blocks
+        for data in self.get_data():
             if "jsonpath" in self.conf:
                 jsonpaths = self.conf["jsonpath"]
                 if not isinstance(jsonpaths, list):

@@ -42,7 +42,7 @@ class RegexService(HttpService):
                 zip_longest = itertools.zip_longest
             except AttributeError:
                 # Python 2.7
-                zip_longest = itertools.izip_longest
+                zip_longest = itertools.izip_longest  # pylint: disable=no-member
             for matches in zip_longest(*iters):
                 yield dict(itertools.chain.from_iterable(
                     [m.groupdict().items() for m in matches if m is not None]
