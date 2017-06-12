@@ -22,7 +22,7 @@ setup(
     packages=find_packages("src"),
     include_package_data=True,
     zip_safe=False,
-    url="http://hurricanelabs.github.io/libweb/",
+    url="http://python-libweb.readthedocs.org",
     description="Python Web Service Parsing Library",
     long_description=get_long_description(),
     install_requires=[
