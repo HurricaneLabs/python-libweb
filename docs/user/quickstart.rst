@@ -92,8 +92,7 @@ key from our sister project, `Machinae`_. You can run the sample like so:
 .. code:: bash
 
     $ python virustotal.py <apikey> 209.95.50.13
-    {'response_code': 1, 'asn': '29854', 'resolutions': [{'hostname': 'us-newyorkcity.privateinternetaccess.com', 'last_resolved': '2016-03-13 00:00:00'}], 'as_owner': 'WestHost, Inc.', 'country': 'US', 'detected_urls': [], 'verbose_msg': 'IP address in dataset'}
-    OrderedDict([('asn', '29854'), ('country', 'US'), ('pdns', {'hostname': 'us-newyorkcity.privateinternetaccess.com', 'last_resolved': '2016-03-13 00:00:00'}), ('as_owner', 'WestHost, Inc.')])
+    OrderedDict([('asn', '29854'), ('country', 'US'), ('as_owner', 'WestHost, Inc.'), ('pdns', {'hostname': 'us-newyorkcity.privateinternetaccess.com', 'last_resolved': '2016-03-13 00:00:00'})])
     $
 
 .. _`Machinae`: https://github.com/hurricanelabs/machinae
