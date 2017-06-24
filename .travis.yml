@@ -1,12 +1,16 @@
 sudo: false
 language: python
 python:
-    - "2.7"
-    - "3.4"
+- '2.7'
+- '3.4'
 install: pip install tox-travis
 script: tox
 before_install:
-    - pip install codecov
+- pip install codecov
 after_success:
-    - coverage combine .coverage_data
-    - codecov
+- coverage combine .coverage_data
+- codecov
+notifications:
+  hipchat:
+    rooms:
+      secure: iLTF9uAhMubXipyvwmLqGXWJcjoPwDpq1bD7REvG6cG5bBO4TAWZmJjsgbgNUCg28KxdfuOXuJrMkMUvFm61mnvLrzfZcu+wgz6aI/IhWYYgyo/pNsAo57H6QlafApY8lmtgP5FlZ1n7kd1+crWF7pBfXO+F46VJd3Ue2l77/+L1Q/b8UD41KLp5i06/eUw3FlTfWhQGjvu7upzgFtFVxzwJUBkVgJ6H5bpj9xsNz2NFnM84KKpRDHn+4CilfywLNTJSp9AgoyiJe+76sydIYC8WHc+ctap118aiq2VZUdsdH4VQ4wkpn4gGcl8gI3mqXEO5f01LmVIlKmQz5x4wg6CBr4oeWRYfy3gGtABszURxgYD4OMiB96kkmO6adA0OjAFGznMEzlrzr4UFwC5g7xSNCraogiW7wH6dQCs1D1M+OTWn3jWgwpR7GwonuKuljGu/pJjhZEDFXOy8mC8JMJkNTyQmLezIJh5/to8CBwHbyTBdCGRZXijfwbTJE98xfX2MXU8kc02COadAxg7s/XsufBHJFr20QxMyG/7jKV0zxYSCD3RnoDJDH8MDkbv1Fwwa9DhezSekp69+47rh1okkbGxMef0ERjn8cGnCHSqfLINv8NR+m0qZyulvHfd/TRhpDkQVnZOKD1uOQNaxLp9/9mTzUKzjxDBQBzOnnkQ=
