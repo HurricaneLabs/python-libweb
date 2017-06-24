@@ -12,10 +12,10 @@ import logging
 import time
 
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 
-class WebService:  # pylint: disable=too-few-public-methods
+class WebService(object):  # pylint: disable=too-few-public-methods
     """
     Base service inherited by other services throughout libweb. Should not be
     instantiated directly.
