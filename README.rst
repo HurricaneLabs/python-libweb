@@ -80,7 +80,7 @@ Version 0.99.0 (2017-01-27)
 -  Initial release
 
 .. |Docs| image:: https://readthedocs.org/projects/libweb/badge/?version=latest
-    :target: http://libweb.readthedocs.io/en/latest/?badge=latest
+    :target: http://docs.libweb.io/en/latest/?badge=latest
     :alt: Documentation Status
 .. |Build Status| image:: https://travis-ci.org/HurricaneLabs/python-libweb.svg?branch=master
     :target: https://travis-ci.org/HurricaneLabs/python-libweb
