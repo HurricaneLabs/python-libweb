@@ -55,3 +55,4 @@ target/
 
 #Vim
 *.swp
+.coverage_data/
