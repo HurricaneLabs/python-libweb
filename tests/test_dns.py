@@ -3,9 +3,9 @@ import unittest
 from libweb.dns import DnsblService, DnsService
 
 
-class GoogleDnsMixin:
+class GoogleDnsMixin(object):
     def get_resolver(self):
-        resolver = super().get_resolver()
+        resolver = super(GoogleDnsMixin, self).get_resolver()
         resolver.nameservers = ["8.8.8.8", "8.8.4.4"]
         return resolver
 
@@ -18,9 +18,25 @@ class GoogleDnsblService(GoogleDnsMixin, DnsblService):
     pass
 
 
+class GoogleResolverTestMixin(object):
+    def test_spamhaus_fails(self):
+        self.service.conf = {
+            "rrname": "test.dbl.spamhaus.org",
+            "rrtype": "A"
+        }
+
+        data = dict()
+        for _ in self.service:
+            data.update(_)
+        self.assertNotIn("rdata", data)
+
+
 class TestDns(unittest.TestCase):
+    def get_service(self):
+        return DnsService()
+
     def setUp(self):
-        self.service = DnsService()
+        self.service = self.get_service()
         self.service.swallow_exceptions = False
 
     def tearDown(self):
@@ -96,15 +112,12 @@ class TestDns(unittest.TestCase):
         self.assertEqual(set(rdata), set(["127.0.1.2"]))
 
 
-class TestDnsGoogleResolver(TestDns):
-    def setUp(self):
-        self.service = GoogleDnsService()
-        self.service.swallow_exceptions = False
-
-
 class TestDnsbl(unittest.TestCase):
+    def get_service(self):
+        return DnsblService()
+
     def setUp(self):
-        self.service = DnsblService()
+        self.service = self.get_service()
         self.service.swallow_exceptions = False
 
     def tearDown(self):
@@ -126,7 +139,11 @@ class TestDnsbl(unittest.TestCase):
         self.assertEqual(set(rdata), set(["127.0.0.10", "127.0.0.2", "127.0.0.4"]))
 
 
-class TestDnsblGoogleResolver(TestDnsbl):
-    def setUp(self):
-        self.service = GoogleDnsblService()
-        self.service.swallow_exceptions = False
+class TestDnsGoogleResolver(GoogleResolverTestMixin, TestDns):
+    def get_service(self):
+        return GoogleDnsService()
+
+
+class TestDnsblGoogleResolver(GoogleResolverTestMixin, TestDnsbl):
+    def get_service(self):
+        return GoogleDnsblService()
